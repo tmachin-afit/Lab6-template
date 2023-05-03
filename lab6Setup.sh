@@ -8,7 +8,7 @@ apt install -y python3-tk
 python3 -m pip install --upgrade pip
 # install python requirements
 python3 -m pip install -r requirements.txt
-mkdir /opt/data
+# mkdir /opt/data
 # copy data from local to new directory
 # cp -a ../data/. /opt/data/
 
