@@ -25,10 +25,10 @@ from tqdm import tqdm
 from tqdm.keras import TqdmCallback
 
 # Make into Path objects instead? 
-
-fig_path = '/remote_home/EENG645a-Sp23/Lab6/Lab6-template/figures'
-model_path = '/remote_home/EENG645a-Sp23/Lab6/Lab6-template/models'
-log_path = '/remote_home/EENG645a-Sp23/Lab6/Lab6-template/logs'
+# TODO: Update paths to match your directory structure
+# fig_path = '/remote_home/EENG645a-Sp23/Lab6/Lab6-template/figures'
+# model_path = '/remote_home/EENG645a-Sp23/Lab6/Lab6-template/models'
+# log_path = '/remote_home/EENG645a-Sp23/Lab6/Lab6-template/logs'
 
 def plot_confusion_matrix(cm, classes,
                           normalize=False,
@@ -65,7 +65,7 @@ def plot_confusion_matrix(cm, classes,
     plt.xlabel('Predicted label')
     plt.savefig(f'{fig_path}/{title}')
 
-
+# TODO: Create methods for writing and reading vocabulary, and getting the dataset from the vocabulary
 def write_vocabulary(vocabulary_filename: Path, vocabulary: typing.List[str]):
     pass
 
@@ -83,6 +83,7 @@ def get_dataset(data_dir: Path,
                 validation_split: float,
                 ) -> typing.Tuple[tf.data.Dataset, tf.data.Dataset, typing.List[str]]:
     # make dataset objects using text_dataset_from_directory
+    # unlike other training, recommend setting a seed
     train_dataset: tf.data.Dataset
     validation_dataset: tf.data.Dataset
 
@@ -160,12 +161,13 @@ def main():
     train_data_dir = base_data_dir / 'train'
     test_data_dir = base_data_dir / 'test'
 
+    # If True, then retrain the model
     force_fit_model: bool
 
     validation_split: float
 
     vocabulary_filename = Path('vocabulary.tsv')
-    model_name = 'model.h5'
+    model_name = f'{model_path}/model.h5'
 
     batch_size: int
 
@@ -219,7 +221,7 @@ def main():
     plt.figure()
     plot_confusion_matrix(confusion_matrix, classes=class_names, normalize=True,
                           title='Normalized confusion matrix')
-    plt.show()
+    # plt.show()
 
 
 if __name__ == "__main__":
