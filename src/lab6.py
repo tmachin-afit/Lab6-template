@@ -1,7 +1,6 @@
 import csv
 import itertools
 import os
-import typing
 from pathlib import Path
 
 import h5py
@@ -24,11 +23,11 @@ from tensorflow.python.keras.layers import Dropout
 from tqdm import tqdm
 from tqdm.keras import TqdmCallback
 
-# Make into Path objects instead? 
 # TODO: Update paths to match your directory structure
 # fig_path = '/remote_home/EENG645a-Sp23/Lab6/Lab6-template/figures'
 # model_path = '/remote_home/EENG645a-Sp23/Lab6/Lab6-template/models'
 # log_path = '/remote_home/EENG645a-Sp23/Lab6/Lab6-template/logs'
+# vocab_path = ...
 
 def plot_confusion_matrix(cm, classes,
                           normalize=False,
@@ -66,11 +65,16 @@ def plot_confusion_matrix(cm, classes,
     plt.savefig(f'{fig_path}/{title}')
 
 # TODO: Create methods for writing and reading vocabulary, and getting the dataset from the vocabulary
-def write_vocabulary(vocabulary_filename: Path, vocabulary: typing.List[str]):
+def write_vocabulary(vocabulary_filename: Path, vocabulary: [str]):
+    """
+    I reccomend looking at csv.writer()
+    """
     pass
 
-
-def read_vocabulary(vocabulary_filename: Path) -> typing.List[str]:
+def read_vocabulary(vocabulary_filename: Path) -> [str]:
+    """ 
+    I reccomend looking at csv.reader()
+    """
     vocabulary = []
     return vocabulary
 
@@ -81,7 +85,7 @@ def get_dataset(data_dir: Path,
                 max_token_length: int,
                 batch_size: int,
                 validation_split: float,
-                ) -> typing.Tuple[tf.data.Dataset, tf.data.Dataset, typing.List[str]]:
+                ) -> [tf.data.Dataset, tf.data.Dataset, [str]]:
     # make dataset objects using text_dataset_from_directory
     # unlike other training, recommend setting a seed
     train_dataset: tf.data.Dataset
@@ -111,13 +115,13 @@ def get_dataset(data_dir: Path,
     # Remember at this point you data should be shuffled, batched, scaled, repeated, prefetched, cached or
     # anything else you want in your pipeline
 
-    # print out a sample to make sure it looks alright
+    # print out a sample to make sure it looks alright. You can comment this out after confirming. 
     sample = next(train_ds.as_numpy_iterator())
     print(f"Input shape: {sample[0].shape}, Output shape: {sample[1].shape}")
     print(f"First sample raw input:\n{sample[0][0]}")
     # if you used an integer encoding on the text we can decode it to get the sentence with our vocabulary
-    vocabulary_list: typing.List[str] = vectorize_layer.get_vocabulary()
-    text_list: typing.List[str] = []
+    vocabulary_list: [str] = vectorize_layer.get_vocabulary()
+    text_list: [str] = []
     for word_index in sample[0][0]:
         text_list.append(vocabulary_list[word_index])
     print(f"First sample input decoded:\n{' '.join(text_list)}")
@@ -157,7 +161,7 @@ def sample_from_dataset(dataset: tf.data.Dataset,
 
 
 def main():
-    base_data_dir = Path('/opt', 'data', 'FanFic', f'website_txt_splits_small')
+    base_data_dir = Path('/opt', 'data', f'website_txt_splits_small')
     train_data_dir = base_data_dir / 'train'
     test_data_dir = base_data_dir / 'test'
 
@@ -166,7 +170,7 @@ def main():
 
     validation_split: float
 
-    vocabulary_filename = Path('vocabulary.tsv')
+    vocabulary_filename = Path(vocab_path, 'vocabulary.tsv')
     model_name = f'{model_path}/model.h5'
 
     batch_size: int
