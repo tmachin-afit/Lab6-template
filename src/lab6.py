@@ -98,6 +98,12 @@ def get_dataset(data_dir: Path,
     num_classes = len(categories)
 
     # process the raw text into tokens. remember to remove punctuation
+        # now process the raw text streams into machine-readable data
+    def custom_standardization(input_data):
+        lowercase = tf.strings.lower(input_data)
+        no_punctuation_lowercase = tf.strings.regex_replace(lowercase, r"""[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~“”’…–]""", '')
+        return tf.strings.regex_replace(no_punctuation_lowercase, r""" """, ' ')
+
     # you may want to load your saved vocabulary into the layer here (if a saved vocabulary exists)
     vectorize_layer: TextVectorization
 
@@ -117,7 +123,8 @@ def get_dataset(data_dir: Path,
     # Remember at this point you data should be shuffled, batched, scaled, repeated, prefetched, cached or
     # anything else you want in your pipeline
 
-    # print out a sample to make sure it looks alright. You can comment this out after confirming. 
+    # print out a sample to make sure it looks alright. You can comment this out after confirming.
+    # CAREFUL LITTLE EYES WHAT YOU READ 
     sample = next(train_ds.as_numpy_iterator())
     print(f"Input shape: {sample[0].shape}, Output shape: {sample[1].shape}")
     print(f"First sample raw input:\n{sample[0][0]}")
