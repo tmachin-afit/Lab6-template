@@ -24,10 +24,12 @@ from tqdm import tqdm
 from tqdm.keras import TqdmCallback
 
 # TODO: Update paths to match your directory structure
-# fig_path = '/remote_home/EENG645a-Sp23/Lab6/Lab6-template/figures'
-# model_path = '/remote_home/EENG645a-Sp23/Lab6/Lab6-template/models'
-# log_path = '/remote_home/EENG645a-Sp23/Lab6/Lab6-template/logs'
-# vocab_path = ...
+fig_path = None
+model_path = None
+log_path = None
+vocab_path = None
+# Make sure to save the data here!!!
+base_data_dir = None
 
 def plot_confusion_matrix(cm, classes,
                           normalize=False,
